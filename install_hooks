@@ -1,0 +1,20 @@
+#!/bin/bash
+
+SCRIPT=`realpath $0`
+SCRIPTPATH=`dirname $SCRIPT`
+
+# Initial setup
+# On the target Debian/Ubuntu system (e.g. UP Board):
+if ! (hash iasl 2>/dev/null) ; then
+    sudo apt-get update 
+    sudo apt-get install -y acpica-tools
+else
+    echo "acpica-tools already installed skipping"
+fi
+
+sudo cp ${SCRIPTPATH}/acpi-upgrades /etc/initramfs-tools/hooks/
+
+sudo mkdir -p /lib/firmware/acpi-upgrades
+
+sudo cp ${SCRIPTPATH}/acpi-add /usr/local/bin/
+
