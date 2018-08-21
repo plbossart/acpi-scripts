@@ -1,15 +1,22 @@
-# this script is derived from the SPI-enable.zip file used for the Up2
-# board available at
+# Background
+this script is derived from the SPI-enable.zip file used for the Up2
+board available at
+
 https://wiki.up-community.org/Pinout_UP2#Installing_ACPI_overrides_to_enable_spi_in_userspace
 
-# install
- sudo ./install_hooks
+# Install shortcut
+to install ACPI dependencies
+```bash
+sudo ./install_hooks
+```
 
 to add i2c/spi devices hooks
-
+```bash
  sudo acpi-add <directory>/*.asl
+ ```
 
-# Explanation
+# Explanations
+
 ACPI Table upgrades can be included in the initrd image for the kernel, and
 will be used by the kernel instead of the tables provided by the BIOS if
 the revision number is newer.
