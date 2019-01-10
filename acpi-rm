@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Author: Xiuli Pan
+# script to rm acpi hooks
+# use like this: acpi-rm
+
+BASEHOOKSDIR="/lib/firmware/acpi-upgrades"
+
+
+echo -e "\nRemove ${count} aml files\n"
+sudo rm -rf $BASEHOOKSDIR/*aml
+
+echo -e "\nUpdate initramfs...\n"
+# update initramfs
+#sudo update-initramfs -u -k all
+sudo update-initramfs -u -t -k `uname -r`
+echo -e "\nDone\n"
+
+
