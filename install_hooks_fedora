@@ -1,0 +1,22 @@
+#!/bin/bash
+
+SCRIPT=`realpath $0`
+SCRIPTPATH=`dirname $SCRIPT`
+
+# Initial setup
+# On the target Fedora system (e.g. UP Board):
+if ! (hash iasl 2>/dev/null) ; then
+    sudo dnf update 
+    sudo dnf -y install acpica-tools
+else
+    echo "acpica-tools already installed skipping"
+fi
+
+sudo mkdir -p /lib/firmware/acpi-upgrades
+
+sudo echo 'acpi_override="yes"' | sudo tee /etc/dracut.conf.d/01-acpi-override.conf
+
+sudo echo 'acpi_table_dir="/lib/firmware/acpi-upgrades"' | sudo tee -a /etc/dracut.conf.d/01-acpi-override.conf
+
+sudo cp ${SCRIPTPATH}/acpi-add-fedora /usr/local/bin/
+
