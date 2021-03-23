@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# Author: Nicola Lunghi
+# script to compile and add acpi hooks 
+# use like this: acpi-add-fedora file1.asl file2.asl 
+
+BASEHOOKSDIR="/lib/firmware/acpi-upgrades"
+
+count=0
+
+for arg in "$@"
+do
+    pathname=$(dirname "$arg")
+    fullname=$(basename "$arg")
+    extension="${fullname##*.}"
+    filename="${fullname%.*}"
+
+    if [ -f "$pathname/$fullname" ] && [ "$extension" == "asl" ]
+    then
+        ((count++))
+        echo "-- generating ${fullname}"
+        iasl ${pathname}/${filename}.asl > /dev/null
+        sudo mv ${pathname}/$filename.aml $BASEHOOKSDIR
+    fi
+done
+
+echo -e "\nAdded ${count} asl files\n" 
+
+if [ "$count" -ne "0" ]
+then
+    echo -e "\nUpdate initramfs...\n"
+    # update initramfs
+    sudo dracut --regenerate-all -f 
+    echo -e "\nDone\n"
+fi
+
+
