@@ -17,7 +17,7 @@ DefinitionBlock (
   "SSDT",
    2,
   "INTEL",
-  "RTKSDWTabl",
+  "RTKTabl",
   0x1000
   )
 {
